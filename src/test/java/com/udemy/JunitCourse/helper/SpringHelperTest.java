@@ -1,6 +1,6 @@
 package com.udemy.JunitCourse.helper;
 
-import com.sun.xml.internal.bind.v2.TODO;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -10,7 +10,12 @@ import static org.junit.Assert.assertTrue;
 
 public class SpringHelperTest {
 
-    StringHelper helper = new StringHelper();
+    StringHelper helper;
+
+    @Before
+    public void before() {
+        helper = new StringHelper();
+    }
 
     @Test
     public void testTruncateAInFirst2Positions_AInFirst2Positions(){
@@ -32,7 +37,10 @@ public class SpringHelperTest {
         boolean expectedValue = false;
         assertEquals(expectedValue, actual);
 //        you can test this scenario with assertEquals or using assertFalse:
+        assertFalse(actual);
+//        this is exactly the same as the assertion above:
         assertFalse(helper.areFirstAndLast2CharactersTheSame("ABCD"));
+
     }
 
     @Test
@@ -41,7 +49,9 @@ public class SpringHelperTest {
         boolean expected = true;
         assertEquals(expected, actual);
 //        or:
-//        assertTrue(helper.areFirstAndLast2CharactersTheSame("ABAB"));
+        assertTrue(helper.areFirstAndLast2CharactersTheSame("ABAB"));
+//        or
+        assertTrue(actual);
     }
 
 //    TODO
