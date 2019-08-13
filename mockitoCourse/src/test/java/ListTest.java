@@ -2,8 +2,11 @@ import org.junit.Test;
 
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -41,6 +44,19 @@ public class ListTest {
 
         assertEquals("this string", listMock.get(0));
         assertEquals("this string", listMock.get(1));
+    }
+
+    @Test
+    public void letsMockListGet_UsingBDD() {
+        //given
+        List<String> listMock = mock(List.class);
+        given(listMock.get(anyInt())).willReturn("some string");
+
+        //when
+        String firstElement = listMock.get(0);
+
+        //then
+        assertThat(firstElement, is("some string"));
     }
 
     @Test(expected = RuntimeException.class)
