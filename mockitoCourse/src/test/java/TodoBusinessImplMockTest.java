@@ -6,8 +6,7 @@ import java.util.List;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class TodoBusinessImplMockTest {
 
@@ -39,7 +38,7 @@ public class TodoBusinessImplMockTest {
     }
 
     @Test
-    public void testretirvedTodosRelatedToSpring_usingBDD() {
+    public void testRetrievedTodosRelatedToSpring_usingBDD() {
 
         //given
         TodoService todoServiceMock = mock(TodoService.class);
@@ -55,5 +54,24 @@ public class TodoBusinessImplMockTest {
         //then
         assertThat(filteredTodos.size(), is(2));
 
+    }
+
+    @Test
+    public void testDeleteTodosRelatewdToSpring_UsingBDD() {
+        //given
+        TodoService todoServiceMock = mock(TodoService.class);
+        List<String> todos = Arrays.asList("Learn Spring MVC", "Learn Spring", "Learn to dance");
+
+        given(todoServiceMock.retrieveTodos("Dummy")).willReturn(todos);
+        TodoBusinessImpl todoBusinessImpl = new TodoBusinessImpl(todoServiceMock);
+
+        //when
+        todoBusinessImpl.deleteTodosNotRelatedToSpring("Dummy");
+
+        // then
+        verify(todoServiceMock).deleteTodos("Learn to dance");
+        verify(todoServiceMock, never()).deleteTodos("Learn Spring");
+        verify(todoServiceMock, never()).deleteTodos("Learn Spring MVC");
+        verify(todoServiceMock, times(1)).deleteTodos("Learn to dance ");
     }
 }
